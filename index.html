@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>西日本・九州自駕之旅 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --jp-dark: #2C3E50; 
+            --jp-red: #A64452;  
+            --jp-beige: #F5F5F0; 
+            --jp-gold: #B8A07E;
+            --jp-white: #FFFFFF;
+            --jp-gray: #7F8C8D;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--jp-beige);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 60px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--jp-dark);
+            color: var(--jp-beige);
+            text-align: center;
+            padding: 25px 20px;
+            border-bottom: 3px solid var(--jp-gold);
+        }
+        header h1 { margin: 0; font-size: 1.2rem; letter-spacing: 2px; }
+        header p { margin: 5px 0 0; font-size: 0.75rem; opacity: 0.7; }
+
+        /* Main Tabs */
+        .main-nav {
+            display: flex;
+            background: var(--jp-white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-btn {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: var(--jp-gray);
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .nav-btn.active {
+            color: var(--jp-red);
+            border-bottom: 3px solid var(--jp-red);
+        }
+
+        .content-section { display: none; padding: 20px 15px; max-width: 600px; margin: 0 auto; }
+        .content-section.active { display: block; }
+
+        /* Accordion */
+        .accordion-item {
+            background: var(--jp-white);
+            margin-bottom: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .accordion-header {
+            padding: 18px 15px;
+            background: var(--jp-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-left: 6px solid var(--jp-gold);
+        }
+        .accordion-header h3 { margin: 0; font-size: 0.95rem; color: var(--jp-dark); font-weight: 600; }
+        .accordion-header i { transition: 0.3s; color: var(--jp-gold); font-size: 0.8rem; }
+        .accordion-header.open i { transform: rotate(180deg); }
+
+        .accordion-content {
+            display: none;
+            padding: 15px;
+            border-top: 1px solid #f0f0f0;
+            background-color: #fafafa;
+        }
+
+        /* Spot Styling */
+        .spot {
+            position: relative;
+            padding-left: 20px;
+            border-left: 1px solid #ddd;
+            padding-bottom: 25px;
+        }
+        .spot:last-child { border-left: none; padding-bottom: 0; }
+        .spot::before {
+            content: ''; position: absolute; left: -5px; top: 6px;
+            width: 9px; height: 9px; background: var(--jp-red); border-radius: 50%;
+        }
+        .time { font-size: 0.8rem; color: var(--jp-red); font-weight: bold; display: block; }
+        .name { font-size: 1rem; font-weight: bold; margin: 2px 0; display: block; }
+        .suggestion { font-size: 0.75rem; color: #777; margin-bottom: 5px; }
+        .move-info { font-size: 0.75rem; color: #888; background: #eee; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-top: 5px; }
+
+        /* Navigation Button */
+        .map-link {
+            display: inline-flex; align-items: center;
+            background: var(--jp-dark); color: white;
+            padding: 8px 16px; border-radius: 6px; text-decoration: none;
+            font-size: 0.8rem; margin-top: 10px; transition: 0.3s;
+        }
+        .map-link:hover { background: var(--jp-red); }
+        .map-link i { margin-right: 6px; }
+
+        /* Driving Tips Styling */
+        .tips-card {
+            background: white; padding: 20px; border-radius: 12px;
+            line-height: 1.8; color: #444; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .tips-card h4 { 
+            color: var(--jp-red); 
+            border-bottom: 2px solid var(--jp-gold); 
+            padding-bottom: 5px; 
+            margin-top: 25px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .tips-card h4 i { margin-right: 10px; }
+        .tips-card ul { padding-left: 20px; margin: 0; }
+        .tips-card li { margin-bottom: 12px; font-size: 0.9rem; }
+        .important { color: var(--jp-red); font-weight: bold; text-decoration: underline; }
+        
+        /* Stop Sign Graphic */
+        .stop-sign {
+            display: inline-block; background: #E74C3C; color: white;
+            padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>西日本・九州自駕之旅</h1>
+    <p>2026.04.06 — 04.12 Itinerary</p>
+</header>
+
+<div class="main-nav">
+    <div class="nav-btn active" onclick="switchSection('itinerary', this)">詳細行程</div>
+    <div class="nav-btn" onclick="switchSection('tips', this)">自駕注意</div>
+</div>
+
+<div id="itinerary" class="content-section active">
+    
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3>4/6 (一) 福岡・山口初探</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="spot"><span class="time">08:00</span><span class="name">福岡自駕出發</span></div>
+            <div class="spot">
+                <span class="time">09:00</span><span class="name">浮羽稻荷神社</span>
+                <div class="suggestion">停留 1h</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=浮羽稻荷神社" class="map-link" target="_blank"><i class="fa-solid fa-location-dot"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 55 min</span>
+            </div>
+            <div class="spot">
+                <span class="time">11:00</span><span class="name">系島午餐</span>
+                <div class="suggestion">停留 2h</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=糸島市" class="map-link" target="_blank"><i class="fa-solid fa-utensils"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 1.5 hr</span>
+            </div>
+            <div class="spot">
+                <span class="time">14:00</span><span class="name">唐戶市場</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=唐戸市場" class="map-link" target="_blank"><i class="fa-solid fa-fish"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 2 hr</span>
+            </div>
+            <div class="spot">
+                <span class="time">16:00</span><span class="name">琉璃光寺五重塔</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=琉璃光寺" class="map-link" target="_blank"><i class="fa-solid fa-temple"></i>MAP 導航</a>
+            </div>
+            <div class="spot"><span class="time">18:00</span><span class="name">抵達 廣島住宿</span></div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3>4/7 (二) 廣島文化與藝術</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="spot">
+                <span class="time">08:00</span><span class="name">原子彈圓頂、和平公園</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=原子彈爆炸圓頂屋" class="map-link" target="_blank"><i class="fa-solid fa-location-dot"></i>MAP 導航</a>
+            </div>
+            <div class="spot">
+                <span class="time">09:30</span><span class="name">宮島(嚴島)神社</span>
+                <div class="suggestion">搭船+參拜停留 3h</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=宮島口フェリー乗り場" class="map-link" target="_blank"><i class="fa-solid fa-ship"></i>導航至渡輪站</a>
+            </div>
+            <div class="spot">
+                <span class="time">13:00</span><span class="name">下瀨美術館</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=下瀬美術館" class="map-link" target="_blank"><i class="fa-solid fa-palette"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 38 min</span>
+            </div>
+            <div class="spot">
+                <span class="time">15:00</span><span class="name">錦帶橋</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=錦帯橋" class="map-link" target="_blank"><i class="fa-solid fa-location-dot"></i>MAP 導航</a>
+            </div>
+            <div class="spot"><span class="time">18:00</span><span class="name">抵達 山口住宿</span></div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3>4/8 (三) 童話村與高千穗</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="spot">
+                <span class="time">10:00</span><span class="name">由布院童話村、午餐</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=由布院ステンドグラス美術館" class="map-link" target="_blank"><i class="fa-solid fa-location-dot"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 2 hr 40 min</span>
+            </div>
+            <div class="spot">
+                <span class="time">14:30</span><span class="name">高千穗峽划船</span>
+                <div class="suggestion">需預約，停留 2h</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=高千穂峡" class="map-link" target="_blank"><i class="fa-solid fa-anchor"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 2 hr 20 min</span>
+            </div>
+            <div class="spot"><span class="time">17:30</span><span class="name">抵達 岩戶附近住宿</span></div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3>4/9 (四) 阿蘇火山與森林神宮</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="spot">
+                <span class="time">09:30</span><span class="name">阿蘇火山</span>
+                <div class="suggestion">請查火口管制</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=阿蘇山火口" class="map-link" target="_blank"><i class="fa-solid fa-volcano"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 1 hr 20 min</span>
+            </div>
+            <div class="spot">
+                <span class="time">11:30</span><span class="name">上色見熊野座神社</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=上色見熊野座神社" class="map-link" target="_blank"><i class="fa-solid fa-location-dot"></i>MAP 導航</a>
+            </div>
+            <div class="spot"><span class="time">13:30</span><span class="name">抵達 熊本住宿</span></div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3>4/10 (五) 薩摩名園與櫻島</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="spot">
+                <span class="time">10:00</span><span class="name">仙嚴園</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=仙巌園" class="map-link" target="_blank"><i class="fa-solid fa-location-dot"></i>MAP 導航</a>
+            </div>
+            <div class="spot">
+                <span class="time">11:00</span><span class="name">櫻島火山</span>
+                <div class="suggestion">搭渡輪+觀瞻 2.5h</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=桜島フェリーターミナル" class="map-link" target="_blank"><i class="fa-solid fa-ship"></i>導航至渡輪站</a>
+            </div>
+            <div class="spot">
+                <span class="time">17:30</span><span class="name">城山展望台 (夕陽)</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=城山展望台" class="map-link" target="_blank"><i class="fa-solid fa-sun"></i>MAP 導航</a>
+            </div>
+            <div class="spot"><span class="time">19:00</span><span class="name">抵達 鹿兒島住宿</span></div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3>4/11 (六) 天草海豚與天空鳥居</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="spot">
+                <span class="time">13:00</span><span class="name">賞海豚體驗</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=天草イルカウォッチング" class="map-link" target="_blank"><i class="fa-solid fa-fish"></i>MAP 導航</a>
+                <br><span class="move-info">🚗 鹿兒島過來約 3.5 hr</span>
+            </div>
+            <div class="spot">
+                <span class="time">15:30</span><span class="name">倉岳神社 (天空鳥居)</span>
+                <div class="suggestion">路極窄，請小心駕駛</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=倉岳神社" class="map-link" target="_blank"><i class="fa-solid fa-location-dot"></i>MAP 導航</a>
+            </div>
+            <div class="spot"><span class="time">18:30</span><span class="name">回到 熊本住宿</span></div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <h3>4/12 (日) 熊本古城與回程</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="spot">
+                <span class="time">09:00</span><span class="name">熊本城</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=熊本城" class="map-link" target="_blank"><i class="fa-solid fa-chess-rook"></i>MAP 導航</a>
+            </div>
+            <div class="spot">
+                <span class="time">11:00</span><span class="name">熊本市區逛街、午餐</span>
+                <a href="https://www.google.com/maps/search/?api=1&query=下通商店街" class="map-link" target="_blank"><i class="fa-solid fa-bag-shopping"></i>MAP 導航</a>
+            </div>
+            <div class="spot">
+                <span class="time">15:30</span><span class="name">熊本空港還車</span>
+                <div class="suggestion">預留 30 分加油與手續</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=阿蘇くまもと空港レンタカーターミナル" class="map-link" target="_blank"><i class="fa-solid fa-car"></i>MAP 導航</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="tips" class="content-section">
+    <div class="tips-card">
+        <h4><i class="fa-solid fa-traffic-light"></i> 燈號與轉彎規則</h4>
+        <ul>
+            <li><span class="important">紅燈絕對禁止轉彎：</span> 在日本，紅燈時禁止左轉也禁止右轉。必須等到燈號變為綠色，或是出現綠色箭頭。</li>
+            <li><span class="important">右轉禮讓直行：</span> 綠燈右轉時，對向直行車有優先權。請在大路口中心等待，確認對向無車且無行人時再大轉彎。</li>
+            <li><strong>行人絕對優先：</strong> 無論轉彎或經過斑馬線，行人踏上馬路你必須完全停止禮讓。</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-octagon-xmark"></i> 標誌與停止</h4>
+        <ul>
+            <li><span class="stop-sign">止まれ</span> <strong>完全停止標誌：</strong> 路口看到此紅色標誌，車輛輪胎必須「完全靜止」持續 3 秒，確認左右無車才可起步。</li>
+            <li><strong>鐵路道口：</strong> 經過平交道前，不論有無柵欄，必須在線前完全停止，確認左右無火車。</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-gas-pump"></i> 加油與 ETC</h4>
+        <ul>
+            <li><strong>加油：</strong> 一般自駕車請加紅色油槍 <span class="important">Regular (レギュラー)</span>。還車前需在機場附近加滿油並保留收據。</li>
+            <li><strong>ETC 車道：</strong> 進入高速公路請走紫色 ETC 專用道，車速請保持在 20km/h 以下通過。</li>
+        </ul>
+
+        <h4><i class="fa-solid fa-phone-flip"></i> 緊急聯繫</h4>
+        <ul>
+            <li><strong>警察局：</strong> 撥打 110</li>
+            <li><strong>救護車：</strong> 撥打 119</li>
+            <li><strong>事故處理：</strong> 若發生輕微擦撞，請務必報警並聯絡租車公司，否則保險將不予理賠。</li>
+        </ul>
+    </div>
+</div>
+
+<footer>
+    <p style="text-align:center; font-size: 0.7rem; color: #999; margin-top: 40px; letter-spacing: 1px;">
+        HAVE A SAFE DRIVE & ENJOY KYUSHU
+    </p>
+</footer>
+
+<script>
+    // 切換分區邏輯
+    function switchSection(id, btn) {
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // 手風琴摺疊邏輯
+    function toggleAccordion(header) {
+        const content = header.nextElementSibling;
+        const isOpen = content.style.display === "block";
+        
+        if (isOpen) {
+            content.style.display = "none";
+            header.classList.remove('open');
+        } else {
+            content.style.display = "block";
+            header.classList.add('open');
+        }
+    }
+</script>
+
+</body>
+</html>
